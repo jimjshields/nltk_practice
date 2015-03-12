@@ -83,33 +83,30 @@ def simple_word_analysis():
 
 	all_speeches = ''.join(get_only_speeches(get_csv_data()))
 	tokenized = nltk.tokenize.word_tokenize(all_speeches)
-	f_dist = nltk.FreqDist(tokenized)
+	# text = nltk.Text(w.lower() for w in tokenized if w.isalpha())
+	# f_dist = nltk.FreqDist(text)
 
-	lowercase_vocab = set([word.lower() for word in tokenized if word.isalpha()])
-	uppercase_words = set([word for word in tokenized if word[0].isupper()])
-
-	sorted_words = sorted(f_dist.items(), key=lambda item: item[1], reverse=True)
-	# print [word for word in sorted_words if word[0] in unusual_words]
-	# print all_speeches.collocations()
+	vocab = set([word for word in tokenized if word.isalpha()])
+	unusual_words = [word for word in vocab if word.lower() not in wordlist]
+	proper_nouns = filter(lambda word: word[0].isupper(), unusual_words)
+	print sorted(proper_nouns)
 	
-all_speeches = ''.join(get_only_speeches(get_csv_data()))
-# tokenized = nltk.tokenize.word_tokenize(all_speeches)
-# f_dist = nltk.FreqDist(tokenized)		
+simple_word_analysis()
 
 
-from collections import Counter, defaultdict
+# from collections import Counter, defaultdict
 
-def make_markov_dict(text, ngram):
-    '''returns a dict of {ngram tuple: Counter} 
-    counting the number of times words follow an ngram'''
-    ngram = ngram
-    words = text
-    words = nltk.word_tokenize(text)
-    zippy_words = zip(*[words[i:] for i in xrange(ngram + 1)])
-    markov_dict = defaultdict(Counter)
-    for t in zippy_words:
-        a, b = t[:-1], t[-1]
-        markov_dict[a][b] += 1
-    return markov_dict.items()
+# def make_markov_dict(text, ngram):
+#     '''returns a dict of {ngram tuple: Counter} 
+#     counting the number of times words follow an ngram'''
+#     ngram = ngram
+#     words = text
+#     words = nltk.word_tokenize(text)
+#     zippy_words = zip(*[words[i:] for i in xrange(ngram + 1)])
+#     markov_dict = defaultdict(Counter)
+#     for t in zippy_words:
+#         a, b = t[:-1], t[-1]
+#         markov_dict[a][b] += 1
+#     return markov_dict.items()
 
-print make_markov_dict(all_speeches, 2)[:10]
+# print make_markov_dict(all_speeches, 2)[:10]
