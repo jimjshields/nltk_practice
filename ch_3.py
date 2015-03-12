@@ -36,5 +36,25 @@ class TestT9(unittest.TestCase):
 	def test_find_t9_words(self):
 		self.assertEqual(self.t9_search.find_t9_words(), [u'hello'])
 
-if __name__ == '__main__':
-	unittest.main()
+regexp = r'^[AEIOUaeiou]+|[AEIOU]+$|[^AEIOUaeiou]'
+
+def compress(word):
+	pieces = re.findall(regexp, word)
+	return ''.join(pieces)
+
+# from nltk.corpus import nps_chat
+# from nltk.corpus import gutenberg
+# moby = nltk.Text(gutenberg.words('melville-moby_dick.txt'))
+# chat = nltk.Text(nps_chat.words())
+# print chat.findall(r'<.*><.*><bro>')
+# print chat.findall(r'<l.*>{3,}')
+
+raw = """DENNIS: Listen, strange women lying in ponds distributing swords 
+is no basis for a system of government.  Supreme executive power derives from
+a mandate from the masses, not from some farcical aquatic ceremony."""
+tokens = nltk.word_tokenize(raw)
+
+
+
+# if __name__ == '__main__':
+# 	unittest.main()
